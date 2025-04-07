@@ -5,6 +5,30 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://cdn.tailwindcss.com"></script>
+      <style>
+         .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            cursor: pointer;
+         }
+         
+         .lightbox img {
+            max-height: 90vh;
+            max-width: 90vw;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+         }
+      </style>
    </head>
    <body class="bg-gray-100 min-h-screen">
       <main class="container mx-auto px-4 py-12 max-w-4xl">
@@ -62,5 +86,40 @@
             </div>
          </div>
       </main>
+
+      <!-- Lightbox container -->
+      <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+         <img id="lightbox-img" src="" alt="Fullscreen view">
+      </div>
+
+      <script>
+         function openLightbox(imgSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imgSrc;
+            lightbox.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+         }
+
+         function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+         }
+
+         // Add click handlers to all gallery images
+         document.querySelectorAll('.grid img').forEach(img => {
+            img.onclick = function() {
+               openLightbox(this.src);
+            }
+         });
+
+         // Close lightbox with Escape key
+         document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+               closeLightbox();
+            }
+         });
+      </script>
    </body>
 </html>
