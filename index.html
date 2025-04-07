@@ -28,6 +28,39 @@
             transform: translate(-50%, -50%);
             object-fit: contain;
          }
+         
+         .nav-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 16px;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            z-index: 1001;
+         }
+         
+         .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+         }
+         
+         #prev-button {
+            left: 20px;
+         }
+         
+         #next-button {
+            right: 20px;
+         }
+
+         @media (max-width: 640px) {
+            .nav-button {
+               padding: 12px;
+               font-size: 18px;
+            }
+         }
       </style>
    </head>
    <body class="bg-gray-100 min-h-screen">
@@ -87,15 +120,21 @@
          </div>
       </main>
 
-      <!-- Lightbox container -->
-      <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-         <img id="lightbox-img" src="" alt="Fullscreen view">
+      <!-- Updated Lightbox container -->
+      <div id="lightbox" class="lightbox">
+         <img id="lightbox-img" src="" alt="Fullscreen view" onclick="event.stopPropagation()">
+         <button id="prev-button" class="nav-button" onclick="navigate(-1); event.stopPropagation()">❮</button>
+         <button id="next-button" class="nav-button" onclick="navigate(1); event.stopPropagation()">❯</button>
       </div>
 
       <script>
+         let currentImageIndex = 0;
+         const images = Array.from(document.querySelectorAll('.grid img'));
+
          function openLightbox(imgSrc) {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
+            currentImageIndex = images.findIndex(img => img.src === imgSrc);
             lightboxImg.src = imgSrc;
             lightbox.style.display = 'block';
             document.body.style.overflow = 'hidden';
@@ -107,16 +146,39 @@
             document.body.style.overflow = 'auto';
          }
 
+         function navigate(direction) {
+            currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = images[currentImageIndex].src;
+         }
+
          // Add click handlers to all gallery images
-         document.querySelectorAll('.grid img').forEach(img => {
+         images.forEach(img => {
             img.onclick = function() {
                openLightbox(this.src);
             }
          });
 
-         // Close lightbox with Escape key
+         // Updated keyboard controls
          document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
+            if (document.getElementById('lightbox').style.display === 'block') {
+               switch(e.key) {
+                  case 'Escape':
+                     closeLightbox();
+                     break;
+                  case 'ArrowLeft':
+                     navigate(-1);
+                     break;
+                  case 'ArrowRight':
+                     navigate(1);
+                     break;
+               }
+            }
+         });
+
+         // Close lightbox when clicking the background
+         document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
                closeLightbox();
             }
          });
