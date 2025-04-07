@@ -159,24 +159,34 @@
                <div class="space-y-6">
                   <div>
                      <h4 class="text-xl font-serif mb-2">Date & Time</h4>
-                     <p class="text-gray-600">Saturday, May 4th, 2024<br>2:00 PM - 5:00 PM</p>
+                     <p class="text-gray-600">Friday, April 25th, 2025<br>11:00 AM</p>
                   </div>
                   
                   <div>
-                     <h4 class="text-xl font-serif mb-2">Location</h4>
+                     <h4 class="text-xl font-serif mb-2">Service Location</h4>
                      <p class="text-gray-600">
-                        The Village Hall<br>
-                        123 Example Street<br>
-                        Town Name<br>
-                        Postcode
+                        GreenAcres Heatherley Park<br>
+                        Headley<br>
+                        Grayshott Rd<br>
+                        Hindhead<br>
+                        GU35 8LA
+                     </p>
+                  </div>
+
+                  <div>
+                     <h4 class="text-xl font-serif mb-2">Wake Location</h4>
+                     <p class="text-gray-600">
+                        2 Woodfold<br>
+                        Fernhurst<br>
+                        GU27 3ER
                      </p>
                   </div>
                   
                   <div>
                      <h4 class="text-xl font-serif mb-2">Additional Information</h4>
                      <p class="text-gray-600">
-                        Light refreshments will be served.<br>
-                        Please join us in sharing memories of Nicholas.
+                        Light refreshments will be served at the wake.<br>
+                        There should be plenty of parking at Heatherley Park and cars can be parked on the road outside and leading up to our house for the wake.
                      </p>
                   </div>
                </div>
@@ -252,15 +262,19 @@
          });
 
          // Initialize the map (add after the existing scripts)
-         const map = L.map('celebration-map').setView([51.5074, -0.1278], 13); // Default to London, update coordinates later
+         const map = L.map('celebration-map').setView([51.086320, -0.751522], 12);
          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
          }).addTo(map);
 
          // Add a marker (update coordinates later)
-         const marker = L.marker([51.5074, -0.1278]).addTo(map);
-         marker.bindPopup("Celebration Location").openPopup();
+         const heatherleyParkMarker = L.marker([51.118209, -0.788297]).addTo(map);
+         heatherleyParkMarker.bindPopup("Heatherley Park").openPopup();
+
+                  // Add a marker (update coordinates later)
+         const homeMarker = L.marker([51.044710, -0.726624]).addTo(map);
+         homeMarker.bindPopup("Wake at 2 Woodfold").openPopup();
       </script>
    </body>
 </html>
